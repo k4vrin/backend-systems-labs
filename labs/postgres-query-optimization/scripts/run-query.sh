@@ -8,7 +8,7 @@ mode="${1:-}"
 relative_path="${2:-}"
 
 if [[ -z "${mode}" || -z "${relative_path}" ]]; then
-  echo "Usage: $0 <plan|analyze|query> <sql/exercises/file.sql>" >&2
+  echo "Usage: $0 <plan|analyze|query> <exercises/exercise/file.sql>" >&2
   exit 2
 fi
 

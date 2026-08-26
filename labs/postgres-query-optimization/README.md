@@ -7,7 +7,7 @@ This SQL-first lab supports an interview-focused progression:
 3. Diagnose deliberately inefficient queries against a million-order workload.
 4. Connect measured database behavior to Java/Spring concerns later.
 
-The lab contains no solution indexes. Establish a baseline and make an unaided prediction before adding or changing anything.
+The baseline schema contains no secondary indexes. Establish a baseline and make an unaided prediction before adding or changing anything.
 
 ## Safety boundary
 
@@ -36,9 +36,9 @@ Only primary-key indexes exist initially. Secondary indexes are exercise decisio
 ./scripts/up.sh
 ./scripts/reset.sh
 ./scripts/smoke.sh
-./scripts/run-query.sh plan sql/exercises/01-recent-orders-for-user.sql
-./scripts/run-query.sh analyze sql/exercises/01-recent-orders-for-user.sql
-./scripts/capture-plan.sh recent-user-baseline plan sql/exercises/01-recent-orders-for-user.sql
+./scripts/run-query.sh plan exercises/01-selective-lookup/query.sql
+./scripts/run-query.sh analyze exercises/01-selective-lookup/query.sql
+./scripts/capture-plan.sh recent-user-baseline plan exercises/01-selective-lookup/query.sql
 ./scripts/down.sh
 ```
 
@@ -56,18 +56,21 @@ LAB_ORDER_COUNT=50000 ./scripts/reset.sh
 
 The supported range is 1,000–5,000,000 orders.
 
-## First exercise protocol
+## Exercise workflow
 
-Before running `01-recent-orders-for-user.sql`, write down:
+Start with [Exercise 01: Selective lookup](exercises/01-selective-lookup/README.md) and copy its [worksheet](exercises/01-selective-lookup/WORKSHEET.md) into `evidence/generated/`.
 
-- What PostgreSQL probably does
-- How many rows it may inspect versus return
-- Whether an index could help
-- A possible single or composite index and its column order
-- What the plan should reveal if the hypothesis is correct
-- The write/storage cost of the proposed index
+Every exercise follows the same contract:
 
-Then run `plan`, followed by `analyze`. Do not add the index until the baseline result and plan have been recorded.
+1. Predict the access path, rows inspected, and expensive work.
+2. Capture `EXPLAIN`, then safely run `EXPLAIN ANALYZE` against this synthetic database.
+3. Separate observed facts from interpretation.
+4. Propose one query, index, or statistics change and state its cost.
+5. Measure again under equivalent conditions and verify the result.
+6. Test transfer with a changed parameter.
+7. Only then open the reference solution.
+
+Generated evidence is ignored by Git. Promote only reviewed, reproducible case studies.
 
 ## Plan-reading order
 
@@ -81,11 +84,13 @@ Read from actual work, not preferred node names:
 6. Propose the smallest query, index, or statistics change.
 7. Re-run under equivalent conditions and a changed parameter.
 
-## Evidence
+## Evidence and sharing
 
 Generated captures go to `evidence/generated/` and are intentionally ignored. Promote only reviewed artifacts into a named case-study directory, including the environment and dataset metadata needed to interpret them.
 
 Use the repository-level [case-study template](../../docs/CASE_STUDY_TEMPLATE.md).
+
+For a LinkedIn post, link directly to the exercise, show one compact before/after artifact, include the initial prediction and rejected alternatives, and bound every claim to the measured environment. Invite readers to post their hypothesis before opening the solution.
 
 ## Planned exercises
 
@@ -102,4 +107,4 @@ The course will reveal these one at a time:
 - JPA N+1 and excessive query count
 - Workload ranking with `pg_stat_statements`
 
-Only the first read-only query is included in the initial scaffold.
+Only the first exercise and its attempt-gated reference solution are currently published.

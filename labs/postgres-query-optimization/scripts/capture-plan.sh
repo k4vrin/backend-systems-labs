@@ -9,7 +9,7 @@ mode="${2:-}"
 relative_path="${3:-}"
 
 if [[ -z "${label}" || ! "${label}" =~ ^[a-z0-9][a-z0-9-]*$ || -z "${mode}" || -z "${relative_path}" ]]; then
-  echo "Usage: $0 <lowercase-label> <plan|analyze> <sql/exercises/file.sql>" >&2
+  echo "Usage: $0 <lowercase-label> <plan|analyze> <exercises/exercise/file.sql>" >&2
   exit 2
 fi
 

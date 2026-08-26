@@ -4,16 +4,17 @@ Reproducible backend and database experiments for concurrency, performance, mess
 
 This repository intentionally keeps deliberately broken examples separate from production-style portfolio applications.
 
-## First lab: PostgreSQL query optimization
+## Start the public workshop
 
-The first lab builds a deterministic, skewed orders workload and teaches query-plan reasoning before adding Spring or JPA.
+The first lab is a self-contained PostgreSQL query-optimization workshop. You do not need Java or Spring to complete it.
 
 ```bash
+git clone https://github.com/k4vrin/backend-systems-labs.git
 cd labs/postgres-query-optimization
 ./scripts/reset.sh
-./scripts/run-query.sh plan sql/exercises/01-recent-orders-for-user.sql
-./scripts/run-query.sh analyze sql/exercises/01-recent-orders-for-user.sql
 ```
+
+Then open [Exercise 01: Selective lookup](labs/postgres-query-optimization/exercises/01-selective-lookup/README.md). Each exercise requires a written prediction before the plan is revealed and keeps its reference solution in a separate directory.
 
 The local default is 1,000,000 orders. For a faster smoke run:
 
@@ -33,7 +34,10 @@ Requirements:
 backend-systems-labs/
 ├── docs/                                  # Shared evidence templates
 └── labs/
-    └── postgres-query-optimization/       # PostgreSQL 18 plan lab
+    └── postgres-query-optimization/
+        ├── exercises/                     # Attempt these first
+        ├── solutions/                     # Open only after an attempt
+        └── evidence/                      # Record measured case studies
 ```
 
 Future labs remain independently runnable. Shared Java build logic will be introduced only when the first JVM-based lab requires it.
@@ -50,7 +54,17 @@ Future labs remain independently runnable. Shared Java build logic will be intro
 
 ## Public evidence
 
-Use [the case-study template](docs/CASE_STUDY_TEMPLATE.md) for GitHub and LinkedIn material. Keep claims bounded to the measured dataset and environment; do not describe a local benchmark as production capacity.
+Use [the case-study template](docs/CASE_STUDY_TEMPLATE.md) for durable evidence and the [LinkedIn exercise-post template](docs/LINKEDIN_EXERCISE_POST_TEMPLATE.md) when sharing an exercise. Keep claims bounded to the measured dataset and environment; do not describe a local benchmark as production capacity.
+
+## Workshop progress
+
+| Lab | Concept | Exercise | Reference solution |
+| --- | --- | --- | --- |
+| 01 | Selective lookup and composite index ordering | [Available](labs/postgres-query-optimization/exercises/01-selective-lookup/README.md) | Attempt-gated |
+| 02 | Sequential scan despite an index | Planned | — |
+| 03 | Composite-index column order | Planned | — |
+| 04 | Expensive sort | Planned | — |
+| 05 | Bad join | Planned | — |
 
 ## License
 

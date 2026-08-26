@@ -29,8 +29,29 @@ require_safe_relative_sql_path() {
       ;;
   esac
 
-  if [[ "${relative_path}" != sql/exercises/*.sql ]]; then
-    echo "Only files under sql/exercises/ can be executed by the plan runner." >&2
+  if [[ "${relative_path}" != exercises/*/*.sql ]]; then
+    echo "Only SQL files inside an exercises/<exercise>/ directory can be executed by the plan runner." >&2
+    exit 2
+  fi
+
+  if [[ ! -f "${LAB_QUERY_DIR}/${relative_path}" ]]; then
+    echo "SQL file does not exist: ${relative_path}" >&2
+    exit 2
+  fi
+}
+
+require_safe_solution_sql_path() {
+  local relative_path="$1"
+
+  case "${relative_path}" in
+    /*|*..*)
+      echo "SQL path must be relative to the lab and cannot contain '..': ${relative_path}" >&2
+      exit 2
+      ;;
+  esac
+
+  if [[ "${relative_path}" != solutions/*/apply.sql && "${relative_path}" != solutions/*/rollback.sql ]]; then
+    echo "Only apply.sql or rollback.sql inside a solutions/<exercise>/ directory can be run." >&2
     exit 2
   fi
 
