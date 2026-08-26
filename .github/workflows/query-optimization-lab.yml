@@ -19,7 +19,7 @@ jobs:
         working-directory: labs/postgres-query-optimization
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Validate Compose configuration
         run: docker compose config --quiet
