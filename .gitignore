@@ -1,0 +1,12 @@
+.DS_Store
+.idea/
+.vscode/
+.env
+*.iml
+*.log
+build/
+out/
+.gradle/
+
+**/evidence/generated/
+**/evidence/*.tmp

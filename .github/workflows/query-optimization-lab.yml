@@ -1,0 +1,39 @@
+name: Query optimization lab
+
+on:
+  push:
+    paths:
+      - ".github/workflows/query-optimization-lab.yml"
+      - "labs/postgres-query-optimization/**"
+  pull_request:
+    paths:
+      - ".github/workflows/query-optimization-lab.yml"
+      - "labs/postgres-query-optimization/**"
+
+jobs:
+  smoke-test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    defaults:
+      run:
+        working-directory: labs/postgres-query-optimization
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Validate Compose configuration
+        run: docker compose config --quiet
+
+      - name: Build deterministic smoke dataset
+        env:
+          LAB_ORDER_COUNT: "10000"
+        run: ./scripts/reset.sh
+
+      - name: Verify dataset and query
+        env:
+          LAB_ORDER_COUNT: "10000"
+        run: ./scripts/smoke.sh
+
+      - name: Stop containers
+        if: always()
+        run: ./scripts/down.sh --volumes
