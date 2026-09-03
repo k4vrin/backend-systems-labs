@@ -42,6 +42,10 @@ backend-systems-labs/
 
 Future labs remain independently runnable. Shared Java build logic will be introduced only when the first JVM-based lab requires it.
 
+## Extracted Java server project
+
+The scalable/installable Java service now has its own repository: [scalable-installable-java-app](https://github.com/k4vrin/scalable-installable-java-app). It includes repository-local SDKMAN Java 21 setup and the HttpServer → embedded Tomcat → embedded Jetty → Spring Boot roadmap.
+
 ## Working agreement
 
 1. Write down the predicted access path and expensive work.
